@@ -106,10 +106,22 @@ export const getTotalImporte = (req, res) => {
     // Convertir la hoja a JSON
     const data = XLSX.utils.sheet_to_json(worksheet);
 
-    // Enviar las filas como respuesta JSON
+    // Formatear la fecha y agregar los datos a un nuevo arreglo
+    const formattedData = data.map(item => {
+      // Formateamos la fecha usando Date para que esté en formato 'YYYY-MM-DD'
+      const formattedDate = new Date(item.fecha).toLocaleDateString('es-PE'); // 'es-PE' es para formato en español (Perú)
+
+      return {
+        orden: item.orden,
+        fecha: formattedDate,
+        ingreso: item.ingreso
+      };
+    });
+
+    // Enviar las filas con fechas formateadas como respuesta JSON
     res.status(200).json({
       ok: true,
-      data,
+      data: formattedData,
     });
   } catch (error) {
     // Manejo de errores
