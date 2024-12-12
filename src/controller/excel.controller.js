@@ -55,14 +55,14 @@ export const getTotalImporte = (req, res) => {
             totalImporte,
             um:minimo,
             avance: (totalImporte/minimo)*100,
-            dif:minimo-totalImporte         
+            dif: Math.abs(minimo - totalImporte)      
         },
         {
             id:2,
             totalImporte,
             um:maximo,
             avance: (totalImporte/maximo)*100,
-            dif:maximo-totalImporte   
+            dif: Math.abs(maximo - totalImporte)
         }
 
     ]
