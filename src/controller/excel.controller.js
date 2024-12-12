@@ -108,8 +108,9 @@ export const getTotalImporte = (req, res) => {
 
     // Formatear la fecha y agregar los datos a un nuevo arreglo
     const formattedData = data.map(item => {
-      // Formateamos la fecha usando Date para que esté en formato 'YYYY-MM-DD'
-      const formattedDate = new Date(item.fecha).toLocaleDateString('es-PE'); // 'es-PE' es para formato en español (Perú)
+      // Si la fecha es un número (número de serie de Excel), convertirla a una fecha válida
+      const date = typeof item.fecha === 'number' ? new Date((item.fecha - 25569) * 86400 * 1000) : new Date(item.fecha);
+      const formattedDate = date.toLocaleDateString('es-PE'); // 'es-PE' es para formato en español (Perú)
 
       return {
         orden: item.orden,
