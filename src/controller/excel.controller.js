@@ -81,3 +81,39 @@ export const getTotalImporte = (req, res) => {
      res.status(500).json({ message: 'Error al procesar el archivo Excel', error: error.message });
    }
  };
+
+
+ export const getIngresosFechas = (req, res) => {
+  const directoryPath = path.join(__dirname, './'); // Usamos __dirname para obtener el directorio actual
+  const filePath = path.join(directoryPath, 'ingresos.xlsx'); // Ruta completa al archivo Excel
+
+  try {
+    // Verificar si el archivo existe
+    if (fs.existsSync(filePath)) {
+      console.log('Archivo encontrado');
+    } else {
+      console.log('Archivo no encontrado');
+      return res.status(404).json({ message: 'Archivo no encontrado' });
+    }
+
+    // Leer el archivo Excel
+    const workbook = XLSX.readFile(filePath);
+
+    // Obtener la primera hoja
+    const sheet_name_list = workbook.SheetNames;
+    const worksheet = workbook.Sheets[sheet_name_list[0]];
+
+    // Convertir la hoja a JSON
+    const data = XLSX.utils.sheet_to_json(worksheet);
+
+    // Enviar las filas como respuesta JSON
+    res.status(200).json({
+      ok: true,
+      data,
+    });
+  } catch (error) {
+    // Manejo de errores
+    console.error('Error al procesar el archivo Excel:', error.message);
+    res.status(500).json({ message: 'Error al procesar el archivo Excel', error: error.message });
+  }
+};
