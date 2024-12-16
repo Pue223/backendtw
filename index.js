@@ -11,7 +11,7 @@ import getMetaRoutes from "./src/routes/excel.routes.js";
 
 const app = express();
 const corsOptions = {
-  origin: ['https://my-project-psi-steel.vercel.app', 'https://another-frontend.com'],
+  origin: ['https://my-project-psi-steel.vercel.app', 'http://localhost:5173'],
 };
 
 
